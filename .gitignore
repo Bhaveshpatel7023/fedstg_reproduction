@@ -1,0 +1,115 @@
+# ==============================
+# Python cache files
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ==============================
+# Virtual environments
+# ==============================
+venv/
+.venv/
+env/
+ENV/
+
+# ==============================
+# Python packaging
+# ==============================
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+
+# ==============================
+# Jupyter Notebook
+# ==============================
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# ==============================
+# macOS files
+# ==============================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+__MACOSX/
+
+# ==============================
+# Windows files
+# ==============================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================
+# IDE and editor settings
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==============================
+# Logs and temporary files
+# ==============================
+*.log
+*.tmp
+*.temp
+temp/
+tmp/
+
+# ==============================
+# Machine Learning checkpoints
+# ==============================
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+checkpoints/
+runs/
+wandb/
+
+# ==============================
+# Experiment-generated files
+# ==============================
+*.prof
+.prof
+.coverage
+htmlcov/
+
+# ==============================
+# Secrets and environment variables
+# ==============================
+.env
+.env.*
+!.env.example
+secrets.json
+credentials.json
+
+# ==============================
+# Dataset archives
+# ==============================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# ==============================
+# Downloaded datasets
+# ==============================
+data/MNIST/
+data/CIFAR10/
+data/CIFAR100/
+data/CINIC10/
+
+# ==============================
+# OS and tool-generated metadata
+# ==============================
+.python-version
