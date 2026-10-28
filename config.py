@@ -3,7 +3,7 @@
 # Central configuration for FedSTG reproduction
 
 # ==================== Experiment ====================
-DATASET_NAME = "cifar10" # mnist, cifar10, cifar100, cinic10
+DATASET_NAME = "cifar100" # mnist, cifar10, cifar100, cinic10
 METHOD_NAME = "fedstg"
 
 # ==================== Federated Learning ====================
