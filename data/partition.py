@@ -3,7 +3,7 @@ import numpy as np
 from torch.utils.data import Subset
 
 
-def dirichlet_partition(dataset, num_clients, alpha=0.1, seed=42):
+def dirichlet_partition(dataset, num_clients, alpha=0.1, seed=2024):
     rng = np.random.default_rng(seed)
 
     if isinstance(dataset, Subset):

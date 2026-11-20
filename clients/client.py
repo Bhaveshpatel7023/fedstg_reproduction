@@ -16,6 +16,18 @@ class Client:
         batch_size = 32
         lr = 0.01
 
+        if self.dataset is None or len(self.dataset) == 0:
+            print(f"\n[Warning] Client has 0 samples. Skipping local training to prevent crash.")
+            cpu_state_dict = {
+                key: value.cpu().detach().clone()
+                for key, value in self.model.state_dict().items()
+            }
+            return {
+                "state_dict": cpu_state_dict,
+                "num_samples": 0,
+                "local_steps": 0,
+            }
+
         # Synchronize active hardware processing device directly from the incoming model state
         if global_model is not None:
             self.device = next(global_model.parameters()).device

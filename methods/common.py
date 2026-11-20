@@ -67,3 +67,45 @@ def evaluate(model, test_dataset, device="cpu"):
     # Calculate performance ratio percentage baseline metric value
     accuracy = correct_predictions / total_samples if total_samples > 0 else 0.0
     return accuracy
+
+
+def evaluate_per_class(model, dataset, device="cpu"):
+    from torch.utils.data import DataLoader
+    import torch
+
+    model.eval()
+
+    loader = DataLoader(dataset, batch_size=128, shuffle=False)
+
+    num_classes = 10  # MNIST and CIFAR-10
+
+    correct = [0] * num_classes
+    total = [0] * num_classes
+
+    with torch.no_grad():
+        for images, labels in loader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = model(images)
+            predictions = outputs.argmax(dim=1)
+
+            for class_id in range(num_classes):
+                mask = labels == class_id
+
+                correct[class_id] += (
+                    (predictions[mask] == labels[mask]).sum().item()
+                )
+                total[class_id] += mask.sum().item()
+
+    class_accuracies = []
+
+    for class_id in range(num_classes):
+        if total[class_id] == 0:
+            class_accuracies.append(0.0)
+        else:
+            class_accuracies.append(
+                correct[class_id] / total[class_id]
+            )
+
+    return class_accuracies

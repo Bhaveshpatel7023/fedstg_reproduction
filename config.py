@@ -3,14 +3,8 @@
 # Central configuration for FedSTG reproduction
 
 # ==================== Experiment ====================
-DATASET_NAME = "cifar100" # mnist, cifar10, cifar100, cinic10
+DATASET_NAME = "cifar10" # mnist, cifar10, cifar100, cinic10
 METHOD_NAME = "fedstg"
-
-# ==================== Federated Learning ====================
-NUM_CLIENTS = 100
-CLIENTS_PER_ROUND = 10
-DIRICHLET_ALPHA = 0.1
-NUM_ROUNDS = 106
 
 # ==================== Local Training ====================
 LOCAL_EPOCHS = 5
@@ -47,8 +41,8 @@ DATASET_CONFIG = {
         "target_accuracy": 0.60,
         "num_clients": 100,
         "clients_per_round": 10,
-        "alpha": 0.1,
-        "num_rounds": 106,
+        "alpha": 0.5,
+        "num_rounds": 45,
         "auxiliary_samples_per_class": 64,
     },
     "cifar100": {

@@ -10,7 +10,8 @@ from data.auxiliary import get_auxiliary_dataset
 from data.dataset import get_dataset
 from data.partition import dirichlet_partition
 from models.cnn import CNN
-from methods.common import evaluate
+from methods.common import evaluate, evaluate_per_class
+from clients.metrics import calculate_forgetting
 from server.server import Server
 
 # Optimize thread allocation performance for machine learning processing
@@ -18,9 +19,9 @@ torch.set_num_threads(8)
 torch.set_num_interop_threads(2)
 
 # Set global deterministic random seeds for rigorous reproducibility
-random.seed(42)
-torch.manual_seed(42)
-torch.cuda.manual_seed_all(42)
+random.seed(2024)
+torch.manual_seed(2024)
+torch.cuda.manual_seed_all(2024)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
@@ -48,6 +49,8 @@ def main(method_name=None):
     target_accuracy = CFG["target_accuracy"]
     target_round = None
     accuracy = 0.0  # Initialize variable to handle logging gracefully
+
+    accuracy_history = []
 
     # Load datasets based on the unified training framework requirements
     train_dataset, original_test_dataset = get_dataset(config.DATASET_NAME)
@@ -121,6 +124,14 @@ def main(method_name=None):
             accuracy = evaluate(server.model, test_dataset, device=DEVICE)
             round_time = time.perf_counter() - round_start
 
+            class_accuracies = evaluate_per_class(
+                server.model,
+                test_dataset,
+                device=DEVICE
+            )
+
+            accuracy_history.append(class_accuracies)
+
             # Track milestone convergence requirements against metric targets
             if target_round is None and accuracy >= target_accuracy:
                 target_round = round_num
@@ -138,6 +149,10 @@ def main(method_name=None):
                 f"- Generalization Accuracy: {accuracy:.4f} "
                 f"- Duration: {round_time:.2f}s"
             )
+
+    forgetting = calculate_forgetting(accuracy_history)
+
+    print(f"Forgetting Measure (F): {forgetting:.4f}")
 
     total_time = time.perf_counter() - experiment_start
 
